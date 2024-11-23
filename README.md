@@ -77,5 +77,9 @@ python test.py --pretrained_path ./checkpoint/checkpoint.pth --data_path ./mnist
 ## 결과 확인
 - 학습 과정의 손실 그래프(`loss_plot.png`)는 `train.py` 실행 시 자동 저장됩니다.
 - 테스트 결과는 `test.py` 실행 시 지정한 `output_dir`에서 확인할 수 있습니다.
-```
+
+---
+## 샘플 이미지
+### `loss_plot.png` 예시
+![원본 이미지](./results/original/original_0.png)
 
