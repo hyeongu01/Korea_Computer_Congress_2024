@@ -102,7 +102,7 @@ def train(model, train_loader, criterion, optimizer, num_epochs, device, save_ep
             }, save_path)
             print(f"Model saved at epoch {epoch + 1} to {save_path}")
     
-    loss_graph_path = os.path.join(model_path, "loss.png")
+    loss_graph_path = os.path.join(model_path, "loss_plot.png")
     save_loss_plot(average_loss_list, loss_graph_path)
     print(f"Loss plot saved to {save_path}")
 

@@ -116,6 +116,7 @@ def main(args):
         model, test_loader, device, results_dir
         )
     
+    # 결과 출력
     print("\n=== Evaluation done ===")
     print(f"Total samples processed: {total_samples} samples")
     print(f"Total execution time: {total_time:.4f} seconds")
