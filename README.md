@@ -70,11 +70,13 @@ python test.py --pretrained_path ./checkpoint/checkpoint.pth --data_path ./mnist
     - 원본 이미지: `./results/original/original_0.png`, `./results/original/original_1.png` ...
     - 노이즈 이미지: `./results/noisy/noisy_0.png`, `./results/noizy/noisy_1.png` ...
     - 복원된 이미지: `./results/restored/restored_0.png`, `./results/restored/restored_1.png` ...
-- 콘솔에는 실행 시간, 처리된 데이터 수, 평균 처리 시간이 출력됩니다.
+- 콘솔에는 실행 시간, 처리된 데이터 수, 평균 처리 시간 + 평가지표 (MSE, PSNR)이 출력됩니다.
   ```
   Total samples processed: 10000 samples
-  Total execution time: 0.7451 seconds
-  Average time per sample: 0.000075 seconds/sample
+  Total execution time: 0.7416 seconds
+  Average time per sample: 0.000074 seconds/sample
+  Average MSE: 16.121019
+  Average PSNR: 36.200828 dB
   ```
 
 ---
