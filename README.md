@@ -3,7 +3,10 @@
 본 프로젝트는 Autoencoder를 사용하여 노이즈가 포함된 MNIST 이미지를 복원하는 모델을 학습하고 테스트합니다.  
 `README.md`후반부에 출력 결과 사진도 첨부하였습니다.  
 (사용과 수정이 용이하도록 신경써서 구성하였습니다. 아래 사용법을 참고하여 실행해 보시기 바랍니다.)
-
+### 전체적인 모델 아키텍쳐
+<div align="center">
+  <img src="./sample_images/model_architecture.png" alt="손실 그래프" width="500">
+</div>
 ---
 
 ## 설치 및 환경 설정
