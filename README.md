@@ -81,5 +81,15 @@ python test.py --pretrained_path ./checkpoint/checkpoint.pth --data_path ./mnist
 ---
 ## 샘플 이미지
 ### `loss_plot.png` 예시
-![원본 이미지](./results/original/original_0.png)
+<div align="center">
+  <img src="./sample_images/loss_plot.png" alt="손실 그래프" width="500">
+</div>
+
+### 복구된 이미지 비교
+<div align="center">
+  <img src="./sample_images/sample_img_1.png" alt="손실 그래프" width="500">
+</div>
+<div align="center">
+  <img src="./sample_images/sample_img_2.png" alt="손실 그래프" width="500">
+</div>
 
