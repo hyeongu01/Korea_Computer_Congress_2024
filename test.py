@@ -54,9 +54,23 @@ def get_args():
 
     return args
 
+# 평가지표 mse
+def calculate_mse(original, restored):
+    return np.mean((original - restored) ** 2)
+
+# 평가지표 psnr
+def calculate_psnr(original, restored, max_pixel=255.0):
+    mse = calculate_mse(original, restored)
+    if mse == 0:
+        return float('inf')
+    return 20 * np.log10(max_pixel / np.sqrt(mse))
+
+
 def test(model, test_loader, device, results_dir):
     total_samples = 0
     total_time = 0.0
+    total_mse = 0.0
+    total_psnr = 0.0
 
     model.eval()
 
@@ -79,6 +93,13 @@ def test(model, test_loader, device, results_dir):
                 restored_img_np = (restored_imgs[i].cpu().numpy() * 255).astype(np.uint8).squeeze()
                 original_img_np = (original_imgs[i].cpu().numpy() * 255).astype(np.uint8).squeeze()
 
+                # MSE 및 PSNR 계산
+                mse = calculate_mse(original_img_np, restored_img_np)
+                psnr = calculate_psnr(original_img_np, restored_img_np)
+                
+                total_mse += mse
+                total_psnr += psnr
+
                 restored_pil = Image.fromarray(restored_img_np, mode='L')
                 restored_pil.save(os.path.join(results_dir, f"restored_{idx}.png"))
 
@@ -88,7 +109,10 @@ def test(model, test_loader, device, results_dir):
 
             start_time = time.time()
     avg_time_per_sample = total_time / total_samples if total_samples > 0 else 0
-    return total_samples, total_time, avg_time_per_sample
+    avg_mse = total_mse / total_samples if total_samples > 0 else 0
+    avg_psnr = total_psnr / total_samples if total_samples > 0 else 0
+
+    return total_samples, total_time, avg_time_per_sample, avg_mse, avg_psnr
     
 
 
@@ -112,7 +136,7 @@ def main(args):
 
     # 테스트 후 저장
     print("\n=== Starting model evaluation ===")
-    total_samples, total_time, avg_time_per_sample = test(
+    total_samples, total_time, avg_time_per_sample, avg_mse, avg_psnr = test(
         model, test_loader, device, results_dir
         )
     
@@ -121,6 +145,8 @@ def main(args):
     print(f"Total samples processed: {total_samples} samples")
     print(f"Total execution time: {total_time:.4f} seconds")
     print(f"Average time per sample: {avg_time_per_sample:.6f} seconds/sample")
+    print(f"Average MSE: {avg_mse:.6f}")
+    print(f"Average PSNR: {avg_psnr:.6f} dB")
     print("===========================")
     print(f"\nResults are saved at {output_dir}")
 
