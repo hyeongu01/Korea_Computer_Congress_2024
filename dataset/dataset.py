@@ -16,9 +16,10 @@ import os
 '''
 
 class customDataset(Dataset):
-    def __init__(self, data_path, train, transform=None):
+    def __init__(self, data_path, train, noise_prob=0.0, transform=None):
         self.data = datasets.MNIST(root=data_path, train=train, download=True)
         self.transform = transform
+        self.noise_prob = noise_prob
         
         
     def __len__(self):
@@ -29,7 +30,7 @@ class customDataset(Dataset):
         
         if self.transform:
             image = self.transform(image)
-        noisy_img = add_salt_and_pepper_noise(image, 0.08)
+        noisy_img = add_salt_and_pepper_noise(image, self.noise_prob)
             
         return noisy_img, image
 
@@ -91,8 +92,8 @@ def save_dataset_as_images(dataset, output_dir):
 
 if __name__ == "__main__":
     data_path = './mnist'
-    train_dataset = customDataset(data_path, True, transform)
-    test_dataset = customDataset(data_path, False, transform)
+    train_dataset = customDataset(data_path, True, transform=transform)
+    test_dataset = customDataset(data_path, False, transform=transform)
 
     save_dataset_as_images(test_dataset, "./mnist_test_png_2")
 

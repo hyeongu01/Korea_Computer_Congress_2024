@@ -14,9 +14,10 @@ Useage:
 
     + optional:
         --batch_size {default=512}
-        --epochs {default=20}
+        --epochs {default=50}
         --save_epoch {default=5}
         --leraning_rate {default=0.001}
+        --noise_prob {default=0.4}
 '''
 
 def get_args():
@@ -46,16 +47,17 @@ def get_args():
 
     # 옵션값
     parser.add_argument("--batch_size", type=int, default=512, help="Batch size for training")
-    parser.add_argument("--epochs", type=int, default=20, help="Number of training epochs")
+    parser.add_argument("--epochs", type=int, default=50, help="Number of training epochs")
     parser.add_argument("--save_epoch", type=int, default=5, help="Save the model every N epochs")
     parser.add_argument("--learning_rate", type=float, default=0.001, help="Learning rate for the optimizer")
+    parser.add_argument('--noise_prob', type=float, default=0.4, help='Noise probability for training')
 
     # 명령줄 인자 파싱
     args = parser.parse_args()
 
     return args
 
-def train(model, train_loader, criterion, optimizer, num_epochs, device, save_epoch=5, model_path="./model_checkpoint/"):
+def train(model, train_loader, criterion, optimizer, num_epochs, device, noise_prob, save_epoch=5, model_path="./model_checkpoint/"):
     model.to(device)
     checkpoint_path = "checkpoint.pth"
     average_loss_list = []
@@ -103,14 +105,14 @@ def train(model, train_loader, criterion, optimizer, num_epochs, device, save_ep
             print(f"Model saved at epoch {epoch + 1} to {save_path}")
     
     loss_graph_path = os.path.join(model_path, "loss_plot.png")
-    save_loss_plot(average_loss_list, loss_graph_path)
+    save_loss_plot(average_loss_list, loss_graph_path, noise_prob)
     print(f"Loss plot saved to {save_path}")
 
-def save_loss_plot(loss_list, save_path):
+def save_loss_plot(loss_list, save_path, noise_prob):
     # 그래프 생성
     plt.figure(figsize=(10, 6))
     plt.plot(range(1, len(loss_list) + 1), loss_list, marker='o', linestyle='-', color='b', label='Loss')
-    plt.title("Training Loss", fontsize=16)
+    plt.title(f"Training Loss p={noise_prob}", fontsize=16)
     plt.xlabel("Epoch", fontsize=14)
     plt.ylabel("Loss", fontsize=14)
     plt.grid(True)
@@ -125,7 +127,7 @@ def save_loss_plot(loss_list, save_path):
 def main(args):
     # 학습 데이터 로드
     data_path = args.data_dir
-    train_dataset = customDataset(data_path, True, transform)
+    train_dataset = customDataset(data_path, True, args.noise_prob, transform)
     train_loader = DataLoader(dataset=train_dataset, batch_size=args.batch_size, shuffle=True)
     
     # 학습 파라메터 정의
@@ -154,7 +156,7 @@ def main(args):
 
     # 학습
     print("\n=== Training start ===")
-    train(model, train_loader, creterion, optimizer, epochs, device, save_epoch, model_save_dir)
+    train(model, train_loader, creterion, optimizer, epochs, device, args.noise_prob, save_epoch, model_save_dir)
     print("\n=== Training is completed ===")
     print(f"Model and Loss Graph is saved at {model_save_dir}")
 

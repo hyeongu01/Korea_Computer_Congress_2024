@@ -14,6 +14,7 @@ Useage:
 
     + optional:
         --batch_size {default=512}
+        --noise_prob {default=0.4}
 '''
 
 def get_args():
@@ -48,7 +49,9 @@ def get_args():
 
     # 옵션값
     parser.add_argument("--batch_size", type=int, default=512, help="batch size for training")
-    
+    parser.add_argument('--noise_prob', type=float, default=0.4, help='Noise probability for training')
+
+
     # 명령줄 인자 파싱
     args = parser.parse_args()
 
@@ -121,7 +124,7 @@ def main(args):
     data_path = args.data_path
     output_dir = args.output_dir
 
-    test_dataset = customDataset(data_path, False, transform)
+    test_dataset = customDataset(data_path, False, args.noise_prob, transform)
     print("=== Original & noisy image saving ===")
     save_dataset_as_images(test_dataset, output_dir)
     test_loader = DataLoader(dataset=test_dataset, batch_size=args.batch_size, shuffle=False)
