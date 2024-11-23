@@ -38,6 +38,7 @@ class Autoencoder(nn.Module):
             nn.Upsample(scale_factor=2, mode='nearest'),    # (1,32,28,28)
             # concat encoder[0] 32+16 = 48                  # (1,48,28,28)
             nn.Conv2d(48, 16, kernel_size=3, padding=1),    # (1,16,28,28)
+            self.relu,
             
             nn.Conv2d(16, 1, kernel_size=3, padding=1),     # (1,1,28,28)
             nn.Sigmoid()
