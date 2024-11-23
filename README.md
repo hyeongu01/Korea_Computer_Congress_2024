@@ -6,7 +6,8 @@
 ### 전체적인 모델 아키텍쳐
 <div align="center">
   <img src="./sample_images/model_architecture.png" alt="손실 그래프" width="500">
-</div>
+</div>  
+  
 ---
 
 ## 설치 및 환경 설정
