@@ -21,16 +21,17 @@
 ### 사용법
 `train.py`는 MNIST 데이터를 사용하여 Autoencoder 모델을 학습시킵니다. 다음 명령어를 실행하면 모델을 학습시킬 수 있습니다:
 ```bash
-python train.py --data_dir <DATA_DIR> --model_save_dir <MODEL_SAVE_DIR> --batch_size <BATCH_SIZE> --epochs <EPOCHS> --learning_rate <LEARNING_RATE> --save_epoch <SAVE_EPOCH>
+python train.py --data_dir <DATA_DIR> --model_save_dir <MODEL_SAVE_DIR> --batch_size <BATCH_SIZE> --epochs <EPOCHS> --learning_rate <LEARNING_RATE> --save_epoch <SAVE_EPOCH> --noise_prob <NOISE_PROB>
 ```
 
 ### 주요 옵션
 - `--data_dir` (필수): MNIST 데이터셋의 저장 경로 (없는 폴더라면 다운로드해 생성된다).
 - `--model_save_dir` (필수): 학습된 모델을 저장할 디렉터리.
 - `--batch_size` (선택): 학습에 사용할 배치 크기 (기본값: 512).
-- `--epochs` (선택): 학습 에포크 수 (기본값: 20).
+- `--epochs` (선택): 학습 에포크 수 (기본값: 50).
 - `--learning_rate` (선택): 학습률 (기본값: 0.001).
 - `--save_epoch` (선택): 모델 체크포인트를 저장할 에포크 간격 (기본값: 5).
+- `--noise_prob` (선택): 학습 데이터셋 노이즈 생성 비율 (기본값: 0.4).
 
 ### 실행 예시
 ```bash
@@ -50,7 +51,7 @@ python train.py --data_dir ./mnist --model_save_dir ./checkpoint
 `test.py`는 학습된 Autoencoder 모델을 사용하여 테스트 데이터의 노이즈를 제거하고 복원된 이미지를 저장합니다. 다음 명령어를 실행하면 테스트를 수행할 수 있습니다:
 
 ```bash
-python test.py --data_path <DATA_PATH> --output_dir <OUTPUT_DIR> --pretrained_path <PRETRAINED_PATH> --batch_size <BATCH_SIZE>
+python test.py --data_path <DATA_PATH> --output_dir <OUTPUT_DIR> --pretrained_path <PRETRAINED_PATH> --batch_size <BATCH_SIZE> --noise_prob <NOISE_PROB>
 ```
 
 ### 주요 옵션
@@ -58,6 +59,7 @@ python test.py --data_path <DATA_PATH> --output_dir <OUTPUT_DIR> --pretrained_pa
 - `--output_dir` (필수): 복원된 이미지를 저장할 디렉터리.
 - `--pretrained_path` (필수): 학습된 모델의 경로 (.pth 파일).
 - `--batch_size` (선택): 테스트에 사용할 배치 크기 (기본값: 512).
+- `--noise_prob` (선택): 테스트 데이터셋 노이즈 생성 비율 (기본값: 0.4).
 
 ### 실행 예시
 ```bash
@@ -82,7 +84,7 @@ python test.py --pretrained_path ./checkpoint/checkpoint.pth --data_path ./mnist
 ---
 
 ## 결과 확인
-- 학습 과정의 손실 그래프(`loss_plot.png`)는 `train.py` 실행 시 자동 저장됩니다.
+- 학습 과정의 손실 그래프(`loss_plot.png`)는 `train.py` 실행 시 `model_save_dir`에 자동 저장됩니다.
 - 테스트 결과는 `test.py` 실행 시 지정한 `output_dir`에서 확인할 수 있습니다.
 
 ---
@@ -94,9 +96,10 @@ python test.py --pretrained_path ./checkpoint/checkpoint.pth --data_path ./mnist
 
 ### 복구된 이미지 비교
 <div align="center">
-  <img src="./sample_images/sample_img_1.png" alt="손실 그래프" width="500">
+  <img src="./sample_images/화면 캡처 2024-11-24 072504.png" alt="손실 그래프" width="500">
 </div>
+  
+### 정량적인 비교
 <div align="center">
-  <img src="./sample_images/sample_img_2.png" alt="손실 그래프" width="500">
+  <img src="./sample_images/KakaoTalk_20241124_065241549.png" alt="손실 그래프" width="500">
 </div>
-
