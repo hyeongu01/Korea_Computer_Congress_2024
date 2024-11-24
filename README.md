@@ -96,10 +96,10 @@ python test.py --pretrained_path ./checkpoint/checkpoint.pth --data_path ./mnist
 
 ### 복구된 이미지 비교
 <div align="center">
-  <img src="./sample_images/화면 캡처 2024-11-24 072504.png" alt="손실 그래프" width="500">
+  <img src="./sample_images/Qualitative_Comparison.png" alt="손실 그래프" width="500">
 </div>
   
 ### 정량적인 비교
 <div align="center">
-  <img src="./sample_images/KakaoTalk_20241124_065241549.png" alt="손실 그래프" width="500">
+  <img src="./sample_images/Quantitative_Comparison.png" alt="손실 그래프" width="500">
 </div>
